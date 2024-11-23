@@ -1,0 +1,29 @@
+## /api/comments
+
+### Create a new comment
+POST http://localhost:3000/api/comments
+Content-Type: application/json
+
+{
+    "message": "This is a new comment",
+    "sender": "User1",
+    "post": "Post1"
+}
+
+### Update a comment by ID
+PUT http://localhost:3000/api/comments/{{comment_id}}
+Content-Type: application/json
+
+{
+    "message": "This is an updated comment"
+}
+
+### Get all comments / get a comment by ID
+GET http://localhost:3000/api/comments
+GET http://localhost:3000/api/comments/{{comment_id}}
+
+### Get all comments by post
+GET http://localhost:3000/api/comments/post/{{post_id}}
+
+### Delete a comment by ID
+DELETE http://localhost:3000/api/comments/{{comment_id}}
