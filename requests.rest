@@ -11,10 +11,11 @@ Content-Type: application/json
 }
 
 ### Update a comment by ID
-PUT http://localhost:3000/api/comments/{{comment_id}}
+PUT http://localhost:3000/api/comments
 Content-Type: application/json
 
 {
+    "id": {{comment_id}}
     "message": "This is an updated comment"
 }
 
