@@ -59,9 +59,20 @@ const delete_comment = async (req, res) => {
     }
 };
 
+const get_comments_by_post = async (req, res) => {
+    try {
+        const { post } = req.params;
+        const comments = await Comment.find({ post });
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     create_comment,
     update_comment,
     get_comments,
-    delete_comment
+    delete_comment,
+    get_comments_by_post
 }
