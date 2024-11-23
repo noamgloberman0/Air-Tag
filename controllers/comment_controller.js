@@ -27,3 +27,21 @@ exports.update_comment = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.get_comments = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (id) {
+            const comment = await Comment.findById(id);
+            if (!comment) {
+                return res.status(404).json({ error: 'Comment not found' });
+            }
+            res.status(200).json(comment);
+        } else {
+            const comments = await Comment.find();
+            res.status(200).json(comments);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
