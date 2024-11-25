@@ -7,8 +7,8 @@ const comment_routes = require('./routes/comment_routes');
 const post_routes = require('./routes/post_routes');
 
 app.use(express.json());
-app.use('/api/comments', comment_routes);
-app.use('/api/posts', post_routes);
+app.use('/comment', comment_routes);
+app.use('/post', post_routes);
 
 app.listen(port, () => {
 
