@@ -1,7 +1,7 @@
-## /api/comments
+## /comment
 
 ### Create a new comment
-POST http://localhost:3000/api/comments
+POST http://localhost:3000/comment
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Update a comment by ID
-PUT http://localhost:3000/api/comments
+PUT http://localhost:3000/comment
 Content-Type: application/json
 
 {
@@ -20,11 +20,11 @@ Content-Type: application/json
 }
 
 ### Get all comments / get a comment by ID
-GET http://localhost:3000/api/comments
-GET http://localhost:3000/api/comments/{{comment_id}}
+GET http://localhost:3000/comment
+GET http://localhost:3000/comment{{comment_id}}
 
 ### Get all comments by post
-GET http://localhost:3000/api/comments/post/{{post_id}}
+GET http://localhost:3000/comment/post/{{post_id}}
 
 ### Delete a comment by ID
-DELETE http://localhost:3000/api/comments/{{comment_id}}
+DELETE http://localhost:3000/comment/{{comment_id}}
