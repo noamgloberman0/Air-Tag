@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Comment from '../models/comment';
 
-export const createComment = async (req: Request, res: Response) => {
+export const createComment = async (req: Request, res: Response): Promise<void> => {
   try {
     const { message, sender, post } = req.body;
     const newComment = new Comment({ message, sender, post });
@@ -12,12 +12,13 @@ export const createComment = async (req: Request, res: Response) => {
   }
 };
 
-export const updateComment = async (req: Request, res: Response) => {
+export const updateComment = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id, message } = req.body;
-    const updatedComment = await Comment.findByIdAndUpdate(id, { message }, { new: true });
+    const updatedComment = await Comment.findByIdAndUpdate(id, { message }, { new: true }).exec();
     if (!updatedComment) {
-      return res.status(404).json({ error: 'Comment not found' });
+      res.status(404).json({ error: 'Comment not found' });
+      return;
     }
     res.status(200).json(updatedComment);
   } catch (error: any) {
@@ -25,17 +26,18 @@ export const updateComment = async (req: Request, res: Response) => {
   }
 };
 
-export const getComments = async (req: Request, res: Response) => {
+export const getComments = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    if (id && id != "{id}") {
-      const comment = await Comment.findById(id);
+    if (id && id !== "{id}") {
+      const comment = await Comment.findById(id).exec();
       if (!comment) {
-        return res.status(404).json({ error: 'Comment not found' });
+        res.status(404).json({ error: 'Comment not found' });
+        return;
       }
       res.status(200).json(comment);
     } else {
-      const comments = await Comment.find();
+      const comments = await Comment.find().exec();
       res.status(200).json(comments);
     }
   } catch (error: any) {
@@ -43,12 +45,13 @@ export const getComments = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteComment = async (req: Request, res: Response) => {
+export const deleteComment = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const deletedComment = await Comment.findByIdAndDelete(id);
+    const deletedComment = await Comment.findByIdAndDelete(id).exec();
     if (!deletedComment) {
-      return res.status(404).json({ error: 'Comment not found' });
+      res.status(404).json({ error: 'Comment not found' });
+      return;
     }
     res.status(200).json({ message: 'Comment deleted successfully' });
   } catch (error: any) {
@@ -56,10 +59,10 @@ export const deleteComment = async (req: Request, res: Response) => {
   }
 };
 
-export const getCommentsByPost = async (req: Request, res: Response) => {
+export const getCommentsByPost = async (req: Request, res: Response): Promise<void> => {
   try {
     const { post } = req.params;
-    const comments = await Comment.find({ post });
+    const comments = await Comment.find({ post }).exec();
     res.status(200).json(comments);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
