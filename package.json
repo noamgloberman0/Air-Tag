@@ -2,10 +2,10 @@
   "name": "first-task",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "main": "dist/app.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js",
+    "start": "node dist/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
