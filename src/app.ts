@@ -6,7 +6,6 @@ import postRoutes from './routes/postRoutes';
 import swaggerUI from "swagger-ui-express"
 import swaggerJsDoc from "swagger-jsdoc"
 
-
 dotenv.config();
 
 const app = express();
@@ -38,10 +37,20 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 }
 
-app.listen(port, () => {
-  mongoose.connect(process.env.DATABASE_URL!)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+function startServer() {
+  app.listen(port, () => {
+    mongoose.connect(process.env.DATABASE_URL!)
+      .then(() => console.log('MongoDB connected'))
+      .catch(err => console.error('MongoDB connection error:', err));
 
-  console.log(`Server is running on port ${port}`);
-});
+    console.log(`Server is running on port ${port}`);
+  });
+}
+
+// Only start the server if the environment is not 'test'
+if (process.env.NODE_ENV !== 'test') {
+  process.env.NODE_ENV = 'development';
+  startServer();
+}
+
+export default app;
