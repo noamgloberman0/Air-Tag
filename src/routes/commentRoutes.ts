@@ -138,33 +138,6 @@ router.put('/', updateComment);
 /**
  * @swagger
  * /comment/{id}:
- *   get:
- *     summary: Get the comment by id
- *     tags: [Comments]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: false
- *         description: The comment id, if empty it will return all comments
- *     responses:
- *       200:
- *         description: The comment description by id
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Comment'
- *       404:
- *         description: The comment was not found
- *       500:
- *         description: Some server error
- */
-router.get('/:id?', getComments);
-
-/**
- * @swagger
- * /comment/{id}:
  *   delete:
  *     summary: Delete a comment by ID
  *     tags: [Comments]
@@ -211,5 +184,32 @@ router.delete('/:id', deleteComment);
  *         description: Some server error
  */
 router.get('/post/:post', getCommentsByPost);
+
+/**
+ * @swagger
+ * /comment/comments/{id}:
+ *   get:
+ *     summary: Get the comment by id
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The comment id, if empty it will return all comments
+ *     responses:
+ *       200:
+ *         description: The comment description by id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       404:
+ *         description: The comment was not found
+ *       500:
+ *         description: Some server error
+ */
+router.get('/comments/:id?', getComments);
 
 export default router;
