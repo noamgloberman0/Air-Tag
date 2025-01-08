@@ -28,7 +28,7 @@ export const updateComment = async (req: Request, res: Response) => {
 export const getComments = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    if (id) {
+    if (id && id != "{id}") {
       const comment = await Comment.findById(id);
       if (!comment) {
         return res.status(404).json({ error: 'Comment not found' });
