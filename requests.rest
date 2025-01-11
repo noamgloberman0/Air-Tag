@@ -1,3 +1,7 @@
+@comment_id = 1 //replace with the comment ID
+@refresh_token = 1 //replace with the refresh token
+@post_id = 1 //replace with the post ID
+
 ## /comment
 
 ### Create a new comment
@@ -15,7 +19,7 @@ PUT http://localhost:3000/comment
 Content-Type: application/json
 
 {
-    "id": {{comment_id}}
+    "id": "{{comment_id}}"
     "message": "This is an updated comment"
 }
 
@@ -28,3 +32,37 @@ GET http://localhost:3000/comment/post/{{post_id}}
 
 ### Delete a comment by ID
 DELETE http://localhost:3000/comment/{{comment_id}}
+
+## /auth
+
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "username": "DanielNehmadi",
+    "fullname": "The greate Daniel Nehmadi",
+    "password": "strongPassword",
+    "email": "daniel.nehmadi@mongomaster.com"
+}
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "DanielNehamdi",
+    "password": "strongPassword"
+}
+
+### Refresh Token
+POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
+
+{
+    "token": "{{refresh_token}}"
+}
+
+### Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
