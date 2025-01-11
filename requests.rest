@@ -1,12 +1,52 @@
-@comment_id = 1 //replace with the comment ID
-@refresh_token = 1 //replace with the refresh token
+@comment_id = 1
+ //replace with the comment ID
 @post_id = 1 //replace with the post ID
+@access_token = 1
+
+## /auth
+
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "username": "DanielNehmadi",
+    "fullname": "The great Daniel Nehmadi",
+    "password": "strongPassword",
+    "email": "daniel.nehmadi@mongomaster.com"
+}
+
+###
+# @name login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "DanielNehmadi",
+    "password": "strongPassword"
+}
+
+###
+@refresh_token = {{ login.response.body.refreshToken }}
+@access_token = {{ login.response.body.accessToken }}
+
+
+### Refresh Token
+POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
+Authorization: JWT 
+
+### Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: JWT {{access_token}}
 
 ## /comment
 
 ### Create a new comment
 POST http://localhost:3000/comment
 Content-Type: application/json
+Authorization: JWT {{access_token}}
 
 {
     "message": "This is a new comment",
@@ -17,52 +57,26 @@ Content-Type: application/json
 ### Update a comment by ID
 PUT http://localhost:3000/comment
 Content-Type: application/json
+Authorization: JWT {{access_token}}
 
 {
-    "id": "{{comment_id}}"
+    "id": "{{comment_id}}",
     "message": "This is an updated comment"
 }
 
 ### Get all comments / get a comment by ID
 GET http://localhost:3000/comment
-GET http://localhost:3000/comment{{comment_id}}
+Authorization: JWT {{access_token}}
+
+GET http://localhost:3000/comment/{{comment_id}}
+Authorization: JWT {{access_token}}
 
 ### Get all comments by post
 GET http://localhost:3000/comment/post/{{post_id}}
+Authorization: JWT {{access_token}}
 
 ### Delete a comment by ID
+
 DELETE http://localhost:3000/comment/{{comment_id}}
+Authorization: JWT {{access_token}}
 
-## /auth
-
-### Register a new user
-POST http://localhost:3000/auth/register
-Content-Type: application/json
-
-{
-    "username": "DanielNehmadi",
-    "fullname": "The greate Daniel Nehmadi",
-    "password": "strongPassword",
-    "email": "daniel.nehmadi@mongomaster.com"
-}
-
-### Login
-POST http://localhost:3000/auth/login
-Content-Type: application/json
-
-{
-    "username": "DanielNehamdi",
-    "password": "strongPassword"
-}
-
-### Refresh Token
-POST http://localhost:3000/auth/refresh-token
-Content-Type: application/json
-
-{
-    "token": "{{refresh_token}}"
-}
-
-### Logout
-POST http://localhost:3000/auth/logout
-Content-Type: application/json

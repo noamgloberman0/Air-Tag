@@ -1,7 +1,19 @@
-import { Router } from 'express';
+import { Router
+ } from 'express';
 import { register, login, logout, refreshToken } from '../controllers/authController';
+import { authenticateToken } from '../middleware/authMiddleware';
 
 const router = Router();
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
 
 /**
  * @swagger
@@ -57,6 +69,16 @@ const router = Router();
  *   post:
  *     summary: Logout a user
  *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: JWT
+ *         description: Bearer token
  *     responses:
  *       200:
  *         description: User logged out successfully
@@ -68,16 +90,31 @@ const router = Router();
  *   post:
  *     summary: Refresh authentication token
  *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: JWT
+ *         description: Bearer token
  *     responses:
+
  *       200:
  *         description: Token refreshed successfully
  *       400:
  *         description: Bad request
  */
 
+
 router.post('/register', register);
 router.post('/login', login);
-router.post('/logout', logout);
+router.post('/logout', authenticateToken, logout);
 router.post('/refresh-token', refreshToken);
 
 export default router;
+
+
+
