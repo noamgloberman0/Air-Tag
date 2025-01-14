@@ -109,4 +109,21 @@ Content-Type: application/json
 @post_id = {{ new_post.response.body._id }}
 
 ### Update a post by ID
+PUT http://localhost:3000/post/{{post_id}}
+Authorization: JWT {{access_token}}
+Content-Type: application/json
+
+{
+    "message": "Updating the post",
+    "sender": "User1",
+    "likes": 400
+}
+
+### Get a post by ID
+GET http://localhost:3000/post/id/{{post_id}}
+Authorization:  JWT {{access_token}}
+
+### Get all posts by sender
+GET http://localhost:3000/post/sender/User1
+Authorization:  JWT {{access_token}}
 
