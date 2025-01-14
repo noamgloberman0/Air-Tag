@@ -162,7 +162,7 @@ router.get('/id/:post_id', getPostById);
  *       500:
  *         description: Some server error
  */
-router.get('/sender', getPostsBySender);
+router.get('/sender/:sender', getPostsBySender);
 
 /**
  * @swagger
