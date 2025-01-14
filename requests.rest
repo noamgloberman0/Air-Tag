@@ -34,7 +34,7 @@ Content-Type: application/json
 ### Refresh Token
 POST http://localhost:3000/auth/refresh-token
 Content-Type: application/json
-Authorization: JWT 
+Authorization: JWT {{refresh_token}}
 
 ### Logout
 POST http://localhost:3000/auth/logout
@@ -43,7 +43,8 @@ Authorization: JWT {{access_token}}
 
 ## /comment
 
-### Create a new comment
+###
+# @name new_comment
 POST http://localhost:3000/comment
 Content-Type: application/json
 Authorization: JWT {{access_token}}
@@ -53,6 +54,10 @@ Authorization: JWT {{access_token}}
     "sender": "User1",
     "post": "Post1"
 }
+
+###
+
+@comment_id = {{ new_comment.response.body._id }}
 
 ### Update a comment by ID
 PUT http://localhost:3000/comment
@@ -64,11 +69,12 @@ Authorization: JWT {{access_token}}
     "message": "This is an updated comment"
 }
 
-### Get all comments / get a comment by ID
-GET http://localhost:3000/comment
+### Get all comments
+GET http://localhost:3000/comment/comments/
 Authorization: JWT {{access_token}}
 
-GET http://localhost:3000/comment/{{comment_id}}
+### Get a comment by ID
+GET http://localhost:3000/comment/comments/{{comment_id}}
 Authorization: JWT {{access_token}}
 
 ### Get all comments by post
