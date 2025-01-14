@@ -86,3 +86,27 @@ Authorization: JWT {{access_token}}
 DELETE http://localhost:3000/comment/{{comment_id}}
 Authorization: JWT {{access_token}}
 
+## /post
+
+### Get all posts
+GET http://localhost:3000/post
+Authorization: JEWT {{access_token}}
+
+### Create a new post
+# @name new_post
+POST http://localhost:3000/post
+Authorization: JWT {{access_token}}
+Content-Type: application/json
+
+{
+    "message": "This is the content of the post",
+    "sender": "User1",
+    "likes": 12
+}
+
+###
+
+@post_id = {{ new_post.response.body._id }}
+
+### Update a post by ID
+

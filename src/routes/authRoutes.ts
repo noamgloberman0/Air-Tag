@@ -1,5 +1,4 @@
-import { Router
- } from 'express';
+import { Router } from 'express';
 import { register, login, logout, refreshToken } from '../controllers/authController';
 import { authenticateToken } from '../middleware/authMiddleware';
 
@@ -13,11 +12,28 @@ const router = Router();
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *         fullname:
+ *           type: string
+ *         email:
+ *           type: string
+ *     AuthResponse:
+ *       type: object
+ *       properties:
+ *         accessToken:
+ *           type: string
+ *         refreshToken:
+ *           type: string
  */
 
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -30,18 +46,29 @@ const router = Router();
  *             properties:
  *               username:
  *                 type: string
+ *               fullname:
+ *                 type: string
  *               password:
  *                 type: string
+ *               email:
+ *                 type: string
  *     responses:
- *       200:
+ *       201:
  *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       400:
  *         description: Bad request
  */
 
 /**
  * @swagger
- * /login:
+ * /auth/login:
  *   post:
  *     summary: Login a user
  *     tags: [Auth]
@@ -59,13 +86,17 @@ const router = Router();
  *     responses:
  *       200:
  *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
  *       400:
  *         description: Bad request
  */
 
 /**
  * @swagger
- * /logout:
+ * /auth/logout:
  *   post:
  *     summary: Logout a user
  *     tags: [Auth]
@@ -82,11 +113,18 @@ const router = Router();
  *     responses:
  *       200:
  *         description: User logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  */
 
 /**
  * @swagger
- * /refresh-token:
+ * /auth/refresh-token:
  *   post:
  *     summary: Refresh authentication token
  *     tags: [Auth]
@@ -101,13 +139,15 @@ const router = Router();
  *           format: JWT
  *         description: Bearer token
  *     responses:
-
  *       200:
  *         description: Token refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
  *       400:
  *         description: Bad request
  */
-
 
 router.post('/register', register);
 router.post('/login', login);
