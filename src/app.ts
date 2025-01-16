@@ -3,8 +3,10 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
+import authRoutes from './routes/authRoutes';
 import swaggerUI from "swagger-ui-express"
 import swaggerJsDoc from "swagger-jsdoc"
+import { authenticateToken } from './middleware/authMiddleware';
 
 dotenv.config();
 
@@ -12,8 +14,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use('/comment', commentRoutes);
-app.use('/post', postRoutes);
+app.use('/comment', authenticateToken, commentRoutes);
+app.use('/post', authenticateToken, postRoutes);
+app.use('/auth', authRoutes);
 
 if (process.env.NODE_ENV === 'development') {
   const options = {

@@ -6,6 +6,11 @@ const router = Router();
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Post:
  *       type: object
@@ -58,6 +63,8 @@ const router = Router();
  *   post:
  *     summary: Create a new post
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -82,6 +89,9 @@ router.post('/', addPost);
  *   get:
  *     summary: Get all posts
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
  *     responses:
  *       200:
  *         description: The list of the posts
@@ -102,6 +112,8 @@ router.get('/', getAllPosts);
  *   get:
  *     summary: Get the post by id
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: post_id
@@ -129,6 +141,8 @@ router.get('/id/:post_id', getPostById);
  *   get:
  *     summary: Get all posts by sender
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: sender
@@ -148,7 +162,7 @@ router.get('/id/:post_id', getPostById);
  *       500:
  *         description: Some server error
  */
-router.get('/sender', getPostsBySender);
+router.get('/sender/:sender', getPostsBySender);
 
 /**
  * @swagger
@@ -156,6 +170,8 @@ router.get('/sender', getPostsBySender);
  *   put:
  *     summary: Update a post by the id
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: post_id
@@ -184,3 +200,4 @@ router.get('/sender', getPostsBySender);
 router.put('/:post_id', updatePost);
 
 export default router;
+

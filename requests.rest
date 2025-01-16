@@ -1,8 +1,53 @@
+@comment_id = 1
+ //replace with the comment ID
+@post_id = 1 //replace with the post ID
+@access_token = 1
+
+## /auth
+
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "username": "DanielNehmadi",
+    "fullname": "The great Daniel Nehmadi",
+    "password": "strongPassword",
+    "email": "daniel.nehmadi@mongomaster.com"
+}
+
+###
+# @name login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "DanielNehmadi",
+    "password": "strongPassword"
+}
+
+###
+@refresh_token = {{ login.response.body.refreshToken }}
+@access_token = {{ login.response.body.accessToken }}
+
+
+### Refresh Token
+POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
+Authorization: JWT {{refresh_token}}
+
+### Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: JWT {{access_token}}
+
 ## /comment
 
-### Create a new comment
+###
+# @name new_comment
 POST http://localhost:3000/comment
 Content-Type: application/json
+Authorization: JWT {{access_token}}
 
 {
     "message": "This is a new comment",
@@ -10,21 +55,75 @@ Content-Type: application/json
     "post": "Post1"
 }
 
+###
+
+@comment_id = {{ new_comment.response.body._id }}
+
 ### Update a comment by ID
 PUT http://localhost:3000/comment
 Content-Type: application/json
+Authorization: JWT {{access_token}}
 
 {
-    "id": {{comment_id}}
+    "id": "{{comment_id}}",
     "message": "This is an updated comment"
 }
 
-### Get all comments / get a comment by ID
-GET http://localhost:3000/comment
-GET http://localhost:3000/comment{{comment_id}}
+### Get all comments
+GET http://localhost:3000/comment/comments/
+Authorization: JWT {{access_token}}
+
+### Get a comment by ID
+GET http://localhost:3000/comment/comments/{{comment_id}}
+Authorization: JWT {{access_token}}
 
 ### Get all comments by post
 GET http://localhost:3000/comment/post/{{post_id}}
+Authorization: JWT {{access_token}}
 
 ### Delete a comment by ID
+
 DELETE http://localhost:3000/comment/{{comment_id}}
+Authorization: JWT {{access_token}}
+
+## /post
+
+### Get all posts
+GET http://localhost:3000/post
+Authorization: JEWT {{access_token}}
+
+### Create a new post
+# @name new_post
+POST http://localhost:3000/post
+Authorization: JWT {{access_token}}
+Content-Type: application/json
+
+{
+    "message": "This is the content of the post",
+    "sender": "User1",
+    "likes": 12
+}
+
+###
+
+@post_id = {{ new_post.response.body._id }}
+
+### Update a post by ID
+PUT http://localhost:3000/post/{{post_id}}
+Authorization: JWT {{access_token}}
+Content-Type: application/json
+
+{
+    "message": "Updating the post",
+    "sender": "User1",
+    "likes": 400
+}
+
+### Get a post by ID
+GET http://localhost:3000/post/id/{{post_id}}
+Authorization:  JWT {{access_token}}
+
+### Get all posts by sender
+GET http://localhost:3000/post/sender/User1
+Authorization:  JWT {{access_token}}
+

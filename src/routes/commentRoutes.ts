@@ -6,6 +6,11 @@ const router = Router();
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Comment:
  *       type: object
@@ -91,6 +96,8 @@ const router = Router();
  *   post:
  *     summary: Create a new comment
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -115,6 +122,8 @@ router.post('/', createComment);
  *   put:
  *     summary: Update a comment by the id
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -141,6 +150,8 @@ router.put('/', updateComment);
  *   delete:
  *     summary: Delete a comment by ID
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -164,6 +175,8 @@ router.delete('/:id', deleteComment);
  *   get:
  *     summary: Get the comments by post id
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: post
@@ -191,6 +204,8 @@ router.get('/post/:post', getCommentsByPost);
  *   get:
  *     summary: Get the comment by id
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -213,3 +228,4 @@ router.get('/post/:post', getCommentsByPost);
 router.get('/comments/:id?', getComments);
 
 export default router;
+
