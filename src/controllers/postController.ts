@@ -35,8 +35,10 @@ export const getPostById = async (req: Request, res: Response) => {
 
 export const getPostsBySender = async (req: Request, res: Response) => {
   try {
-    const { sender } = req.query;
-    const posts = await Post.find({ sender: sender});
+    const sender = req.query.sender;
+    console.log(sender);
+    const posts = await Post.find({ sender});
+    console.log(posts);
     res.status(200).json(posts);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
