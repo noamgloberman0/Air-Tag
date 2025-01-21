@@ -107,6 +107,7 @@ Content-Type: application/json
 ###
 
 @post_id = {{ new_post.response.body._id }}
+@sender = {{ new_post.response.body.sender }}
 
 ### Update a post by ID
 PUT http://localhost:3000/post/{{post_id}}
@@ -124,6 +125,6 @@ GET http://localhost:3000/post/id/{{post_id}}
 Authorization:  JWT {{access_token}}
 
 ### Get all posts by sender
-GET http://localhost:3000/post/sender/User1
+GET http://localhost:3000/post/sender?sender={{sender}}
 Authorization:  JWT {{access_token}}
 
